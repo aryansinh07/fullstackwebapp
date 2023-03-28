@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"> </script>
+    <title>Home</title>
+</head>
+<body class="bg-gray-100">
+    <%-include("../partials/navbar.ejs")%>
+    <div class="flex flex-row justify-center items-center">
+       <div  class="flex flex-col border-black shadow-2xl  my-4 bg-white justify-center items-center w-96 rounded-md">
+           <div class="text-center font-bold text-2xl font-myfont my-2">
+              Create Post
+           </div>
+           <div class="text-center flex flex-row justify-center text-red-500 text-lg">
+            <%if(error!=''){%>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+                  </svg> &nbsp;                 
+            <%}%>
+            <%=error%>
+           </div>
+           <form enctype="multipart/form-data" action="/api/v1/posts" method="post" class="mx-5">
+               <input type="text" name="title" placeholder="Title" class="border-2 border-gray-600 rounded-lg p-3 w-80 my-2 mx-3"> <br>
+               <select name="category" class="border-2 border-gray-600 rounded-lg p-3 w-80 my-2 mx-3">
+                "react js", "html", "css", "node js", "javascript", "other"
+                 <option value="">Select a category</option>
+                 <option value="react js"> React Js</option>
+                 <option value="html"> HTML </option>
+                 <option value="css"> CSS </option>
+                 <option value="node js">Node js</option>
+                 <option value="javascript"> JavaScript</option>
+                 <option value="other"> Others </option>
+               </select>
+               <textarea name="description" id="" cols="35" rows="10" class="border-2 border-gray-600 rounded-lg  my-2 w-80 mx-3 p-3" placeholder="Enter a description"></textarea>
+               <input type="file"  name="postImage" class="border-2 border-gray-600 rounded-lg  p-3 my-2 w-80 mx-3">
+               <button class="bg-black text-white text-lg p-3 my-2 rounded-lg text-center mb-3 mx-3 w-80 font-semibold hover:bg-gray-800 hover:text-white">Submit</button>
+           </form> 
+
+       </div>
+    </div>
+    <%-include("../partials/footer.ejs")%>
+</body>
+</html>

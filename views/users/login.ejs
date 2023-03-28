@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"> </script>
+    <title>Home</title>
+</head>
+<body class="bg-gray-100">
+    <%-include("../partials/navbar.ejs")%>
+    <div class="flex flex-row  justify-center items-center h-[30rem]  ">
+       <div  class="flex flex-col border-black shadow-2xl h-96 my-4 justify-around w-80 rounded-md bg-white">
+           <div class="text-center font-bold text-xl text-blue-500">
+              Login into your Account
+           </div>
+           <div class="text-center flex flex-row justify-center text-red-500 text-lg">
+            <%if(error!=''){%>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+                  </svg> &nbsp;                 
+            <%}%>
+            <%=error%>
+           </div>
+           <form  action="/api/v1/users/login" method="post" class="mx-5">
+               <input type="text" placeholder="Email" name="email" class="border-2 border-gray-600 rounded-lg px-10 py-4 my-1"> <br>
+               <input type="password" placeholder="Password" name="password" class="border-2 border-gray-600 rounded-lg px-10 py-4 my-1"><br>
+               <button class="bg-pink-700 text-white px-10 py-3 rounded-lg text-center w-[16.5rem] mt-2 hover:bg-gray-500 hover:text-white">Login</button>
+           </form>
+           <div class="mx-5 font-bold ">
+            Don't have an account ? <a href="/api/v1/users/Register" class="no-underline hover:text-orange-500"> Register </a> 
+           </div>
+       </div>
+    </div>
+  <%-include("../partials/footer.ejs")%>
+</body>
+</html>

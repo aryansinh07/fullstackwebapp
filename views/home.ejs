@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"> </script>
+    <title>Home</title>
+</head>
+<body class="bg-gray-100">
+    <%-include("partials/navbar.ejs")%>
+    <div class="flex flex-col justify-center items-center lg:flex lg:flex-row lg:justify-around lg:h-[22rem] bg-white">
+        <div class="content  flex flex-col justify-center items-center mt-4 lg:flex lg:flex-col lg:justify-center px-5 ">
+             <div class="sub1 text-3xl  lg:text-8xl">
+                     You Write <br>
+                     <p class="text-orange-500">We Read </p>
+             </div><br>
+             <div class="sub2 text-xl   lg:text-3xl text-black">
+                   <h2>Perfect Place to Start Blogging </h2>
+             </div><br>
+             <div class="sub3">
+                  <button class="bg-pink-600 rounded-xl p-3 text-sm lg:text-lg text-white hover:bg-pink-400 hover:text-black">
+                    <a href="/api/v1/posts/create"> Create New Post </a>
+                  </button>
+             </div>
+        </div>
+        <div class="mainimage ">
+            <img class="h-80 w-80" src="/images/logo.png" alt="">
+        </div>
+    </div>
+    <div class="flex flex-row justify-center items-center text-5xl mt-2">
+        <h1 class="">Latest <span class="text-orange-600 font-medium">Posts</span></h1>
+    </div>
+    <br>
+    <div class="flex flex-row justify-center flex-wrap mx-4">
+        <%if(posts.length>0){%>
+            <%posts.forEach((post)=>{%>
+                <div class="posts bg-gray-700 w-[500px] shadow-xl rounded-md my-4 mx-2">
+                    <div class="img mt-2 mx-2 mb-2 ">
+                         <img src="<%=post.image%>" alt="" class="border-2 w-[480px] h-[300px]">
+                    </div>
+                    <div class="flex flex-row justify-between text-lg font-medium mx-2 text-white">
+                        <div class="flex flex-row">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                              </svg>
+                              <h2>
+                                <%=post.user.fullname%>
+                              </h2>
+                        </div>
+                        <div class="flex flex-row">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                              </svg>
+                              <h2>Date: &nbsp; <%=post.createdAt.toLocaleDateString()%></h2>
+                        </div>
+                    </div>
+                    <div class="title font-medium text-2xl mx-2 my-2 text-left text-sky-500">
+                        <h1><%=post.title%></h1>
+                    </div>
+                    <div class="desc mx-2 text-justify  text-white text-base my-2">
+                        <p>
+                            <%=truncate(post.description)%>
+                        </p>
+                    </div>
+                    <a href="/api/v1/posts/<%=post._id%>" class="text-sky-500 font-medium text-base mx-2 my-2">Continue Reading ... </a>
+
+                </div>
+            <%})%>
+        <%}%>
+    </div>
+  <%-include("partials/footer.ejs")%>
+</body>
+</html>

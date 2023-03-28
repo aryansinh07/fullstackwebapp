@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"> </script>
+    <title><%=post.title%></title>
+</head>
+<body>
+    <%-include("../partials/navbar.ejs")%>
+    <div class="postuser flex flex-row justify-between mx-2">
+        <div class="posts bg-gray-700  shadow-xl rounded-md my-4 mx-2  ">
+            <div class="img mx-3 my-3 items-center flex flex-row justify-center">
+                 <img src="<%=post.image%>" alt="" class="border-2 w-[100%] h-[400px] rounded-md">
+            </div>
+            <%if(post.user._id==userAuth){%>
+                <div class="flex flex-row justify-center mx-2 my-2">
+                    <a href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 mx-1 text-pink-500 hover:w-8 hover:h-8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                          </svg>
+                    </a>
+                    <form action="/api/v1/posts/<%=post._id%>?_method=DELETE" method="post">
+                           <button>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-red-600 mx-1 hover:w-8 hover:h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                              </svg>  
+                           </button>
+                    </form>
+                </div>
+            <%}%>
+            <div class="flex flex-row text-white text-lg font-medium mx-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                      </svg>
+                      <h2>Date: &nbsp; <%=post.createdAt.toLocaleDateString()%></h2>
+            </div>
+            <div class="title font-medium text-2xl mx-2 my-2 text-left text-sky-500">
+                <h1><%=post.title%></h1>
+            </div>
+            <div class="desc mx-2 text-justify  text-base  text-white my-2">
+                <p>
+                    <%=post.description%>
+                </p>
+            </div>
+            <div class="comment font-medium text-2xl mx-2 my-2 text-left text-sky-500">
+                  <h1>Add a Comment</h1>
+            </div>
+            <form action="/api/v1/comments/<%=post._id%>" class="ml-2 my-2" method="post">
+                <textarea  id="" cols="100" rows="2" class="p-1 rounded-sm" name="message"></textarea><br>
+                <button class="p-3 bg-green-500 text-white rounded-md font-medium hover:bg-green-600" type="submit">
+                    SUBMIT
+                </button>
+            </form>
+
+
+        </div>
+        <div class="user flex flex-col bg-white text-sky-500 border-2 shadow-xl my-4 mx-2 rounded-md">
+            <h1 class="text-2xl mx-2 my-2">About the Author</h1>
+            <img src="<%=post.user.profileImage%>" alt="" class="border-2 border-gray-400 mx-2 my-2 w-[200] h-[200] rounded-md">
+            <h1 class="text-xl mx-2 my-2"><%=post.user.fullname%></h1>
+            <p class="text-black text-justify mx-2 my-2 text-base indent-8"><%=post.user.about%></p>
+        </div>
+    </div>
+    <%if(post.comments.length>0){%>
+        <div class="comments flex flex-col justify-center items-center">
+            <h1 class="font-medium text-2xl mx-2 my-2 text-left text-sky-500 flex justify-center items-center">Comments</h1>
+            <hr class=" h-[0.10rem] bg-gray-400">
+            <%post.comments.forEach((comment)=>{%>
+                  <div class="bg-slate-50 shadow-xl rounded-md w-[800px] my-2 ">
+                    <div class="picname flex flex-row justify-start mx-2 my-2 ">
+                          <div>
+                               <img src="<%=comment.user.profileImage%>" alt="" class="mx-1 my-1 h-[70px] rounded-md border-2 border-sky-400">
+                          </div>
+                          <div class="flex flex-col justify-end text-lg mx-2">
+                               <h1 class="text-sky-700 font-semibold"><%=comment.user.fullname%></h1>
+                               <h1><%=comment.createdAt.toLocaleDateString()%></h1>
+                          </div>
+                    </div>
+                    <div class="mx-2 my-2 text-base text-justify ">
+                          <p><%=comment.message%></p>
+                    </div>
+                    <%if(comment.user._id==userAuth){%>
+                        <div class="flex flex-row justify-center mx-2 my-2">
+                            <a href="/api/v1/comments/<%=comment._id%>">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 mx-1 text-pink-500 hover:w-8 hover:h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                  </svg>
+                            </a>
+                            <form action="/api/v1/comments/<%=comment._id%>?_method=DELETE&postid=<%=post._id%>" method="post">
+                                   <button>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-red-600 mx-1 hover:w-8 hover:h-8">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                      </svg>  
+                                   </button>
+                            </form>
+                        </div>
+                    <%}%>
+                  </div>
+            <%})%>
+
+        </div>
+     <%}%>
+    <%-include("../partials/footer.ejs")%>
+</body>
+</html>
